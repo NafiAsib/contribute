@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Contr!bute',
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+        fontFamily: 'Montserrat',
+      ),
       debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
       onGenerateRoute: RouteGenerator.generateRoute,
