@@ -1,4 +1,7 @@
-import 'package:contribute/presentation/screens/home_screen/home_screen.dart';
+import 'package:contribute/presentation/screens/add_project/add_project_screen.dart';
+import 'package:contribute/presentation/screens/dashboard/dashboard_screen.dart';
+import 'package:contribute/presentation/screens/home/home_screen.dart';
+import 'package:contribute/presentation/screens/signin/signin_screen.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -6,8 +9,14 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // final args = settings.arguments;
     switch (settings.name) {
-      case '/':
+      case '/home':
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case '/signin':
+        return MaterialPageRoute(builder: (_) => const SigninScreen());
+      case '/dashboard':
+        return MaterialPageRoute(builder: (_) => const Dashboard());
+      case '/add-project':
+        return MaterialPageRoute(builder: (_) => const AddProjectScreen());
       default:
         return _errorRoute();
     }
