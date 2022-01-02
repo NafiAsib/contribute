@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,74 +36,123 @@ class Project extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      // padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InkWell(
-            onTap: () async {
-              if (!await launch(url)) throw 'Could not launch $url';
-            },
-            child: const Align(
-              alignment: Alignment.topRight,
-              child: Icon(Icons.link),
+          Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Color(0xFFDEFCF9),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () async {
+                    if (!await launch(url)) throw 'Could not launch $url';
+                  },
+                  child: const Align(
+                    alignment: Alignment.topRight,
+                    child: Icon(Icons.link),
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    name,
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  description,
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+              ],
             ),
           ),
-          Center(
-            child: Text(
-              name,
-              style: Theme.of(context).textTheme.headline1,
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Image.network(
+                      maintainerImage,
+                      height: 50,
+                      width: 50,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      maintainer,
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 26),
+                Wrap(
+                  spacing: 5,
+                  runSpacing: 5,
+                  children: [
+                    for (int i = 0; i < topics.length; i++)
+                      DottedBorder(
+                        borderType: BorderType.RRect,
+                        radius: Radius.circular(12),
+                        padding: EdgeInsets.all(6),
+                        color: const Color(0xFF61C0BF),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            child: Text(
+                              topics[i],
+                              style: Theme.of(context).textTheme.headline2,
+                            )),
+                      ),
+                  ],
+                ),
+
+                // Text(
+                //   'Topics: ${topics.join(', ')}',
+                //   style: Theme.of(context).textTheme.headline2,
+                // ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InfoBadge(
+                      number: stars,
+                      text: 'Stars',
+                    ),
+                    InfoBadge(
+                      number: issues,
+                      text: 'Issues',
+                    ),
+                    InfoBadge(
+                      number: fork,
+                      text: 'Forks',
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Wrap(
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  spacing: 10,
+                  children: [
+                    if (beginner) const SkillBadge(skill: 'Beginner'),
+                    if (intermediate) const SkillBadge(skill: 'Intermediate'),
+                    if (expert) const SkillBadge(skill: 'Expert'),
+                    // SizedBox(
+                    //   width: 16,
+                    // ),
+                  ],
+                )
+              ],
             ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            description,
-            style: Theme.of(context).textTheme.headline2,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Maintained by: $maintainer',
-            style: Theme.of(context).textTheme.headline2,
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Topics: ${topics.join(', ')}',
-            style: Theme.of(context).textTheme.headline2,
-          ),
-          const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InfoBadge(
-                number: stars,
-                text: 'Stars',
-              ),
-              InfoBadge(
-                number: issues,
-                text: 'Issues',
-              ),
-              InfoBadge(
-                number: fork,
-                text: 'Forks',
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (beginner) const SkillBadge(skill: 'Beginner'),
-              if (intermediate) const SkillBadge(skill: 'Intermediate'),
-              if (expert) const SkillBadge(skill: 'Expert'),
-              // SizedBox(
-              //   width: 16,
-              // ),
-            ],
-          )
         ],
       ),
     );
